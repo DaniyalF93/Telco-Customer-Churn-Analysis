@@ -22,7 +22,8 @@ class ReadCleanAndSplitData:
 
     def clean_data(self, df):
         df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
-        df["TotalCharges"].fillna(df["TotalCharges"].median(), inplace=True)
+        df["TotalCharges"] = df["TotalCharges"].fillna(
+            df["TotalCharges"].median())
         df["Churn"] = df["Churn"].map({"No": 0, "Yes": 1})
         df.drop("customerID", axis=1, inplace=True)
 
@@ -48,5 +49,5 @@ class ReadCleanAndSplitData:
     def read_data(self):
         df = pd.read_csv(self.datafile_path)
         df_encoded = self.clean_data(df)
-        self.train_data(df_encoded)
-        # display_info(df)
+        return self.train_data(df_encoded)
+        # self.display_info(df_encoded)
